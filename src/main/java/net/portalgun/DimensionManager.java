@@ -1,14 +1,11 @@
 package net.portalgun;
 
 import java.util.Random;
-import net.minecraft.registry.RegistryKeys;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.dimension.DimensionTypes;
-import net.minecraft.world.biome.source.MultiNoiseBiomeSource;
-import net.minecraft.world.biome.source.util.MultiNoiseBiomeSourceParameterLists;
-import net.minecraft.world.gen.chunk.ChunkGeneratorSettings;
+import net.minecraft.world.gen.chunk.ChunkGenerator;
 import net.minecraft.world.gen.chunk.NoiseChunkGenerator;
 import xyz.nucleoid.fantasy.Fantasy;
 import xyz.nucleoid.fantasy.RuntimeWorldConfig;
@@ -23,15 +20,16 @@ public final class DimensionManager {
         Identifier id = new Identifier("portalgun", "dim_" + d);
         long seed = new Random(d * 341873128712L ^ server.getOverworld().getSeed()).nextLong();
 
-        var reg = server.getRegistryManager();
-        var biomes = MultiNoiseBiomeSource.create(reg.get(RegistryKeys.MULTI_NOISE_BIOME_SOURCE_PARAMETER_LIST)
-                .getEntry(MultiNoiseBiomeSourceParameterLists.OVERWORLD).orElseThrow());
-        var settings = reg.get(RegistryKeys.CHUNK_GENERATOR_SETTINGS)
-                .getEntry(ChunkGeneratorSettings.OVERWORLD).orElseThrow();
+        // Copy biome source + terrain settings from the normal Overworld; the different seed makes a different world.
+        ChunkGenerator base = server.getOverworld().getChunkManager().getChunkGenerator();
+        ChunkGenerator generator = base;
+        if (base instanceof NoiseChunkGenerator noise) {
+            generator = new NoiseChunkGenerator(noise.getBiomeSource(), noise.getSettings());
+        }
 
         RuntimeWorldConfig config = new RuntimeWorldConfig()
                 .setDimensionType(DimensionTypes.OVERWORLD)
-                .setGenerator(new NoiseChunkGenerator(biomes, settings))
+                .setGenerator(generator)
                 .setSeed(seed)
                 .setShouldTickTime(true);
 
