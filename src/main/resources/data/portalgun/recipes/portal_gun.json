@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [" GE", "IDI", " R "],
+  "key": {
+    "G": {"item": "minecraft:glass"},
+    "E": {"item": "minecraft:ender_eye"},
+    "I": {"item": "minecraft:iron_ingot"},
+    "D": {"item": "minecraft:diamond"},
+    "R": {"item": "minecraft:redstone"}
+  },
+  "result": {"item": "portalgun:portal_gun"}
+}

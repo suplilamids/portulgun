@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "id": "portalgun",
+  "version": "${version}",
+  "name": "Infinite Portal Gun",
+  "description": "Rick-style portal gun. Choose X Y Z and D (dimension number) - every D is a different generated dimension.",
+  "authors": ["you"],
+  "environment": "*",
+  "entrypoints": {
+    "main": ["net.portalgun.PortalGunMod"],
+    "client": ["net.portalgun.client.PortalGunClient"]
+  },
+  "mixins": ["portalgun.mixins.json"],
+  "depends": {
+    "fabricloader": ">=0.15.0",
+    "minecraft": "~1.20.1",
+    "java": ">=17",
+    "fabric-api": "*"
+  }
+}
