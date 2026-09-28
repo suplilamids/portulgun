@@ -64,7 +64,6 @@ public class PortalGunScreen extends Screen {
 
     @Override
     public void render(DrawContext ctx, int mx, int my, float delta) {
-        renderBackground(ctx);
         super.render(ctx, mx, my, delta);
         ctx.drawCenteredTextWithShadow(textRenderer, title, width / 2, height / 2 - 55, 0x55FF55);
         ctx.drawCenteredTextWithShadow(textRenderer, Text.literal("X   Y   Z   |   D = dimension number (0 = Overworld)"), width / 2, height / 2 - 40, 0xAAAAAA);
